@@ -4,20 +4,21 @@ spring:
     username: sa
     password: YourStrong!Passw0rd
     
-
 debezium:
-  name: "embedded-sqlserver"
   connector:
-    class: "io.debezium.connector.sqlserver.SqlServerConnector"
-  database:
-    hostname: "localhost"
-    port: 1433
-    user: "sa"
-    password: "YourStrong!Passw0rd"
-    dbname: "mydb"
-    server_name: "sqlserver_cdc"
-    snapshot_mode: "initial"
-  include:
-    schema_changes: true
-    tables: "dbo.users,dbo.orders"
+    name: sqlserver-connector
+    class: io.debezium.connector.sqlserver.SqlServerConnector
+    tasks.max: 1
+    database.server.name: dbserver1
+    database.hostname: localhost
+    database.port: 1433
+    database.user: sa
+    database.password: YourStrong!Passw0rd
+    database.names: mydb
+    topic.prefix: dbserver1
+    database.history.kafka.bootstrap.servers: localhost:9092
+    database.history.kafka.topic: dbhistory.mydb
+    database.history.producer.bootstrap.servers: localhost:9092
+    database.history.producer.topic: dbhistory.mydb
+
 

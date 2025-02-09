@@ -7,55 +7,61 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class DebeziumConfig {
 
-    @Value("${debezium.name}")
-    private String name;
+    // Injecting values from application.yaml using @Value annotation
+    @Value("${debezium.connector.name}")
+    private String connectorName;
 
     @Value("${debezium.connector.class}")
     private String connectorClass;
 
-    @Value("${debezium.database.hostname}")
-    private String databaseHostname;
+    @Value("${debezium.connector.tasks.max}")
+    private String tasksMax;
 
-    @Value("${debezium.database.port}")
-    private String databasePort;
-
-    @Value("${debezium.database.user}")
-    private String databaseUser;
-
-    @Value("${debezium.database.password}")
-    private String databasePassword;
-
-    @Value("${debezium.database.dbname}")
-    private String databaseDbname;
-
-    @Value("${debezium.database.server_name}")
+    @Value("${debezium.connector.database.server.name}")
     private String databaseServerName;
 
-    @Value("${debezium.database.snapshot_mode}")
-    private String snapshotMode;
+    @Value("${debezium.connector.database.hostname}")
+    private String databaseHostname;
 
-    @Value("${debezium.include.schema_changes}")
-    private boolean includeSchemaChanges;
+    @Value("${debezium.connector.database.port}")
+    private String databasePort;
 
-    @Value("${debezium.include.tables}")
-    private String tableIncludeList;
+    @Value("${debezium.connector.database.user}")
+    private String databaseUser;
+
+    @Value("${debezium.connector.database.password}")
+    private String databasePassword;
+
+    @Value("${debezium.connector.database.names}")
+    private String databaseNames;
+
+    @Value("${debezium.connector.topic.prefix}")
+    private String topicPrefix;
+
+    @Value("${debezium.connector.database.history.kafka.bootstrap.servers}")
+    private String kafkaBootstrapServers;
+
+    @Value("${debezium.connector.database.history.kafka.topic}")
+    private String kafkaHistoryTopic;
 
     @Bean
     public io.debezium.config.Configuration debeziumConfiguration() {
+        // Create the Debezium engine configuration
         return io.debezium.config.Configuration.create()
-                .with("name", name)
+                .with("name", connectorName)
                 .with("connector.class", connectorClass)
+                .with("tasks.max", tasksMax)
+                .with("database.server.name", databaseServerName)
                 .with("database.hostname", databaseHostname)
                 .with("database.port", databasePort)
                 .with("database.user", databaseUser)
                 .with("database.password", databasePassword)
-                .with("database.dbname", databaseDbname)
-                .with("database.server.name", databaseServerName)
-                .with("snapshot.mode", snapshotMode)
-                .with("include.schema.changes", String.valueOf(includeSchemaChanges))
-                .with("table.include.list", tableIncludeList)
-                .with("database.history", "io.debezium.relational.history.MemoryDatabaseHistory") // For in-memory history
-
+                .with("database.names", databaseNames)
+                .with("database.encrypt", false)
+                .with("database.trustServerCertificate", true)
+                .with("topic.prefix", topicPrefix)
+                .with("database.history.kafka.bootstrap.servers", kafkaBootstrapServers)
+                .with("database.history.kafka.topic", kafkaHistoryTopic)
                 .build();
 
     }
