@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    url: jdbc:sqlserver://localhost:1433;databaseName=mydb;encrypt=false
+    username: sa
+    password: sa
+    
+
+debezium:
+  name: "embedded-sqlserver"
+  connector:
+    class: "io.debezium.connector.sqlserver.SqlServerConnector"
+  database:
+    hostname: "localhost"
+    port: 1433
+    user: "sa"
+    password: "YourStrong!Passw0rd"
+    dbname: "mydb"
+    server_name: "sqlserver_cdc"
+    snapshot_mode: "initial"
+  include:
+    schema_changes: true
+    tables: "dbo.users,dbo.orders"
+
