@@ -17,23 +17,23 @@
 
     <properties>
         <java.version>23</java.version>
-        <debezium.version>2.6.1.Final</debezium.version>
+        <debezium.version>2.7.2.Final</debezium.version>
     </properties>
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <annotationProcessorPaths>
-                        <path>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                        </path>
-                    </annotationProcessorPaths>
-                </configuration>
-            </plugin>
+            <!-- <plugin> -->
+            <!--     <groupId>org.apache.maven.plugins</groupId> -->
+            <!--     <artifactId>maven-compiler-plugin</artifactId> -->
+            <!--     <configuration> -->
+            <!--         <annotationProcessorPaths> -->
+            <!--             <path> -->
+            <!--                 <groupId>org.projectlombok</groupId> -->
+            <!--                 <artifactId>lombok</artifactId> -->
+            <!--             </path> -->
+            <!--         </annotationProcessorPaths> -->
+            <!--     </configuration> -->
+            <!-- </plugin> -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
@@ -91,6 +91,13 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+    <repositories>
+        <repository>
+            <id>maven_central</id>
+            <name>Maven Central</name>
+            <url>https://repo.maven.apache.org/maven2/</url>
+        </repository>
+    </repositories>
 
 
 </project>

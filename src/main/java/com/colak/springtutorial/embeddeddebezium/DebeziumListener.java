@@ -20,10 +20,9 @@ public class DebeziumListener {
 
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
-    private DebeziumEngine<ChangeEvent<String, String>> debeziumEngine;
+    private final DebeziumEngine<ChangeEvent<String, String>> debeziumEngine;
 
-    @PostConstruct
-    public void startDebezium(Configuration debeziumConfiguration) {
+    DebeziumListener(Configuration debeziumConfiguration) {
         Properties properties = debeziumConfiguration.asProperties();
 
         debeziumEngine = DebeziumEngine
@@ -31,7 +30,10 @@ public class DebeziumListener {
                 .using(properties)
                 .notifying(record -> log.info("Received change event: {}", record))
                 .build();
+    }
 
+    @PostConstruct
+    public void startDebezium() {
         executor.submit(debeziumEngine);
     }
 
