@@ -5,6 +5,35 @@ spring:
     password: YourStrong!Passw0rd
     
 debezium:
+  database:
+    names: ADMR_00_00
+    table:
+      include-list: dbo.AreaConsoles
+  topic-prefix: DMR.SYM
+  offset:
+    storage:
+      jdbc:
+        offset-table-name: dmr_sym_debezium_offsets
+        offset-table-ddl: CREATE TABLE %s
+          (
+            id VARCHAR(36) NOT NULL,
+            offset_key VARCHAR(1255),
+            offset_val VARCHAR(1255),
+            record_insert_ts DATETIME NOT NULL,
+            record_insert_seq INTEGER NOT NULL,
+          )
+        schema-history-table-name: dmr_sym_schema_history
+        schema-history-table-ddl: CREATE TABLE %s
+          (
+          id VARCHAR(36) NOT NULL,
+          history_data VARCHAR(MAX),
+          history_data_seq INTEGER,
+          record_insert_ts DATETIME NOT NULL,
+          record_insert_seq INTEGER NOT NULL,
+          )
+        schema-history-table-exits: SELECT TOP 1 * FROM %s
+        
+        
   connector:
     name: sqlserver-connector
     class: io.debezium.connector.sqlserver.SqlServerConnector
